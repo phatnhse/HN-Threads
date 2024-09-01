@@ -13,23 +13,20 @@ internal class HnRemoteDataSourceImpl(
     private val httpClient: HttpClient,
 ) : HnRemoteDataSource {
 
-    companion object {
-        private const val PER_PAGE = 50
-    }
-
-    override suspend fun getTopStories(): List<HnStoryResponse> {
+    override suspend fun getTopStories(limit: Int): List<HnStoryResponse> {
         return retryFetch {
-            getTopStoriesConcurrent()
+            getTopStoriesConcurrent(limit = limit)
         } ?: emptyList()
     }
 
-    private suspend fun getTopStoriesConcurrent(): List<HnStoryResponse> = coroutineScope {
-        val topStoryIds = getTopStoryIds()
+    private suspend fun getTopStoriesConcurrent(limit: Int): List<HnStoryResponse> =
+        coroutineScope {
+            val topStoryIds = getTopStoryIds()
 
-        topStoryIds.take(PER_PAGE).map { itemId ->
-            async { getStoryDetails(itemId) }
-        }.awaitAll()
-    }
+            topStoryIds.take(limit).map { itemId ->
+                async { getStoryDetails(itemId) }
+            }.awaitAll()
+        }
 
     private suspend fun getStoryDetails(storyId: Long): HnStoryResponse {
         return httpClient.get("item/${storyId}.json").body()

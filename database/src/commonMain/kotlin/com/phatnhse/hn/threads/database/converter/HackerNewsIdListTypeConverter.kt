@@ -2,7 +2,7 @@ package com.phatnhse.hn.threads.database.converter
 
 import androidx.room.TypeConverter
 
-class HnIdListTypeConverter {
+class HackerNewsIdListTypeConverter {
     @TypeConverter
     fun toString(ids: List<Long>): String {
         return ids.joinToString(";")
@@ -10,6 +10,7 @@ class HnIdListTypeConverter {
 
     @TypeConverter
     fun fromString(ids: String): List<Long> {
+        if (ids.isEmpty()) return emptyList()
         return ids.split(";").map { it.toLong() }
     }
 }

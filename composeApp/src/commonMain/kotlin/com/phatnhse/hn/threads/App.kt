@@ -43,7 +43,7 @@ fun App() {
 fun AppContent(
     viewModel: AppViewModel = koinViewModel<AppViewModel>()
 ) {
-    val items = viewModel.response.collectAsState().value
+    val items = viewModel.feedState.collectAsState().value
 
     MaterialTheme {
         LazyColumn(

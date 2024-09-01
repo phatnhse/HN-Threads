@@ -4,9 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "hn_items"
+    tableName = "items"
 )
-data class HnItem(
+data class HackerNewItem(
     @PrimaryKey
     val id: Long,
     val by: String,

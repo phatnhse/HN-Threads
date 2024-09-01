@@ -1,10 +1,8 @@
 package com.phatnhse.hn.threads.di
 
 import com.phatnhse.hn.threads.AppViewModel
-import com.phatnhse.hn.threads.GetTopStoriesUseCase
-import com.phatnhse.hn.threads.GetTopStoriesUseCaseImpl
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
+import com.phatnhse.hn.threads.repo.HackerNewsRepository
+import com.phatnhse.hn.threads.repo.HackerNewsRepositoryImpl
 import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -14,11 +12,10 @@ val commonModules = module {
         AppViewModel(get())
     }
 
-    factory<GetTopStoriesUseCase> {
-        GetTopStoriesUseCaseImpl(
-            remoteDataSource = get(),
-            database = get(),
-            ioDispatcher = Dispatchers.IO,
+    factory<HackerNewsRepository> {
+        HackerNewsRepositoryImpl(
+            appDatabase = get(),
+            hnRemoteDataSource = get()
         )
     }
 }
