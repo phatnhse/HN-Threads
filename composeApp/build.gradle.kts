@@ -58,8 +58,10 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             
+            // Navigation
+            implementation(libs.navigation.compose)
+            
             // Core dependencies for now - others will be added as needed
-            // implementation(libs.navigation.compose) // Commented until stable
             // implementation(libs.koin.core) // Commented until setup  
             // implementation(libs.room.runtime) // Commented until setup
             // implementation(libs.room.ktx) // Commented until setup
