@@ -8,21 +8,21 @@ import androidx.compose.ui.unit.sp
 
 @Immutable
 data class HNTypography(
-    val displayLarge: TextStyle,     // h1 equivalent
-    val displayMedium: TextStyle,    // h2 equivalent  
-    val displaySmall: TextStyle,     // h3 equivalent
-    val headlineLarge: TextStyle,    // h4 equivalent
-    val headlineMedium: TextStyle,   // Large text
-    val headlineSmall: TextStyle,    // Lead text
-    val titleLarge: TextStyle,       // p equivalent
-    val titleMedium: TextStyle,      // Medium text
-    val titleSmall: TextStyle,       // Small text
-    val bodyLarge: TextStyle,        // Body text
-    val bodyMedium: TextStyle,       // Muted text
-    val bodySmall: TextStyle,        // Small muted
-    val labelLarge: TextStyle,       // Table headers
-    val labelMedium: TextStyle,      // Card titles
-    val labelSmall: TextStyle        // Captions
+    val displayLarge: TextStyle,
+    val displayMedium: TextStyle,
+    val displaySmall: TextStyle,
+    val headlineLarge: TextStyle,
+    val headlineMedium: TextStyle,
+    val headlineSmall: TextStyle,
+    val titleLarge: TextStyle,
+    val titleMedium: TextStyle,
+    val titleSmall: TextStyle,
+    val bodyLarge: TextStyle,
+    val bodyMedium: TextStyle,
+    val bodySmall: TextStyle,
+    val labelLarge: TextStyle,
+    val labelMedium: TextStyle,
+    val labelSmall: TextStyle
 )
 
 val DefaultTypography = HNTypography(

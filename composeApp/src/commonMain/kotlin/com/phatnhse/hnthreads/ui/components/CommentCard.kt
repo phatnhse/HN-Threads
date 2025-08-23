@@ -26,7 +26,6 @@ fun CommentCard(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        // Main comment
         CommentItem(
             comment = comment,
             isExpanded = isExpanded,
@@ -34,7 +33,6 @@ fun CommentCard(
             modifier = Modifier.padding(start = (comment.depth * 16).dp)
         )
         
-        // Child comments (threaded)
         if (isExpanded && comment.children.isNotEmpty()) {
             Column(
                 modifier = Modifier.animateContentSize(),
@@ -81,12 +79,10 @@ private fun CommentItem(
             modifier = Modifier.padding(HNTheme.spacing.md),
             verticalArrangement = Arrangement.spacedBy(HNTheme.spacing.sm)
         ) {
-            // Comment header
             Row(
                 horizontalArrangement = Arrangement.spacedBy(HNTheme.spacing.sm),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Author
                 Text(
                     text = comment.author,
                     style = HNTheme.typography.labelMedium,
@@ -94,7 +90,6 @@ private fun CommentItem(
                     fontWeight = FontWeight.SemiBold
                 )
                 
-                // Points
                 Text(
                     text = "${comment.points} points",
                     style = HNTheme.typography.labelSmall,
@@ -107,14 +102,12 @@ private fun CommentItem(
                 
                 Spacer(modifier = Modifier.weight(1f))
                 
-                // Time ago
                 Text(
                     text = comment.timeAgo,
                     style = HNTheme.typography.labelSmall,
                     color = HNTheme.colors.mutedForeground
                 )
                 
-                // Collapse/expand indicator
                 if (comment.children.isNotEmpty()) {
                     Text(
                         text = if (isExpanded) "−" else "+",
@@ -125,7 +118,6 @@ private fun CommentItem(
                 }
             }
             
-            // Comment content
             if (isExpanded) {
                 Text(
                     text = comment.content,
@@ -134,7 +126,6 @@ private fun CommentItem(
                     modifier = Modifier.animateContentSize()
                 )
                 
-                // Reply count for collapsed state
                 if (comment.children.isNotEmpty()) {
                     Text(
                         text = "${comment.children.size} ${if (comment.children.size == 1) "reply" else "replies"}",
@@ -147,7 +138,6 @@ private fun CommentItem(
                     )
                 }
             } else if (comment.children.isNotEmpty()) {
-                // Show truncated content and reply count when collapsed
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(HNTheme.spacing.sm),
                     verticalAlignment = Alignment.CenterVertically

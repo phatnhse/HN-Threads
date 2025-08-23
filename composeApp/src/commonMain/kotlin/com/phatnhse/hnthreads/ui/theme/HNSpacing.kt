@@ -7,23 +7,22 @@ import androidx.compose.ui.unit.dp
 @Immutable
 data class HNSpacing(
     val none: Dp = 0.dp,
-    val xs: Dp = 4.dp,      // 0.25rem
-    val sm: Dp = 8.dp,      // 0.5rem  
-    val md: Dp = 12.dp,     // 0.75rem
-    val lg: Dp = 16.dp,     // 1rem
-    val xl: Dp = 20.dp,     // 1.25rem
-    val xl2: Dp = 24.dp,    // 1.5rem
-    val xl3: Dp = 32.dp,    // 2rem
-    val xl4: Dp = 40.dp,    // 2.5rem
-    val xl5: Dp = 48.dp,    // 3rem
-    val xl6: Dp = 64.dp,    // 4rem
-    val xl7: Dp = 80.dp,    // 5rem
-    val xl8: Dp = 96.dp     // 6rem
+    val xs: Dp = 4.dp,
+    val sm: Dp = 8.dp,
+    val md: Dp = 12.dp,
+    val lg: Dp = 16.dp,
+    val xl: Dp = 20.dp,
+    val xl2: Dp = 24.dp,
+    val xl3: Dp = 32.dp,
+    val xl4: Dp = 40.dp,
+    val xl5: Dp = 48.dp,
+    val xl6: Dp = 64.dp,
+    val xl7: Dp = 80.dp,
+    val xl8: Dp = 96.dp
 )
 
 val DefaultSpacing = HNSpacing()
 
-// Mobile-optimized dimensions
 object HNDimensions {
     val minTouchTarget = 48.dp
     val cardElevation = 1.dp

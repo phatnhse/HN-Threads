@@ -106,7 +106,6 @@ private fun TabContent(
     onStoryClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Sample stories data based on selected tab
     val stories = remember(selectedTab) {
         when (selectedTab) {
             DashboardTab.STORIES -> listOf(
@@ -154,7 +153,6 @@ private fun TabContent(
     }
 }
 
-// Sample data class
 private data class SampleStory(
     val id: Long,
     val title: String,

@@ -14,7 +14,7 @@ sealed interface HNRoute {
 enum class DashboardTab(
     val route: String,
     val title: String,
-    val icon: String // Using string for now, can be replaced with compose icons later
+    val icon: String
 ) {
     STORIES("stories", "Stories", "📰"),
     ASK("ask", "Ask HN", "❓"), 

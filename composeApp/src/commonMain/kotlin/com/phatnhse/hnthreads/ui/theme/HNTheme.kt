@@ -9,7 +9,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
 
-// CompositionLocal definitions
 val LocalHNColors = compositionLocalOf<HNColors> { 
     error("No HNColors provided") 
 }
@@ -20,7 +19,6 @@ val LocalHNTypography = compositionLocalOf<HNTypography> {
     error("No HNTypography provided") 
 }
 
-// Theme object for easy access
 object HNTheme {
     val colors: HNColors
         @Composable
@@ -38,7 +36,6 @@ object HNTheme {
         get() = LocalHNTypography.current
 }
 
-// Main theme provider composable
 @Composable
 fun HNTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

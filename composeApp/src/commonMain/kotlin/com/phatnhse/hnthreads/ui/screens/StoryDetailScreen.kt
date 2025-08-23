@@ -23,7 +23,6 @@ fun StoryDetailScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Sample story data based on storyId
     val story = remember(storyId) {
         SampleStoryDetail(
             id = storyId,
@@ -43,7 +42,6 @@ fun StoryDetailScreen(
         )
     }
     
-    // Sample comments data
     val comments = remember(storyId) {
         generateSampleComments(storyId)
     }
@@ -84,12 +82,10 @@ fun StoryDetailScreen(
             contentPadding = PaddingValues(HNTheme.spacing.lg),
             verticalArrangement = Arrangement.spacedBy(HNTheme.spacing.lg)
         ) {
-            // Story header
             item {
                 StoryHeader(story = story)
             }
             
-            // Comments section header
             item {
                 Text(
                     text = "Comments (${comments.size})",
@@ -99,7 +95,6 @@ fun StoryDetailScreen(
                 )
             }
             
-            // Comments list
             items(comments) { comment ->
                 CommentCard(comment = comment)
             }
@@ -125,7 +120,6 @@ private fun StoryHeader(
             modifier = Modifier.padding(HNTheme.spacing.lg),
             verticalArrangement = Arrangement.spacedBy(HNTheme.spacing.md)
         ) {
-            // Title
             Text(
                 text = story.title,
                 style = HNTheme.typography.headlineSmall,
@@ -133,7 +127,6 @@ private fun StoryHeader(
                 fontWeight = FontWeight.Bold
             )
             
-            // Metadata
             Row(
                 horizontalArrangement = Arrangement.spacedBy(HNTheme.spacing.md),
                 verticalAlignment = Alignment.CenterVertically
@@ -165,7 +158,6 @@ private fun StoryHeader(
                 )
             }
             
-            // Content
             if (story.content.isNotEmpty()) {
                 Text(
                     text = story.content,
@@ -174,7 +166,6 @@ private fun StoryHeader(
                 )
             }
             
-            // URL
             if (story.url.isNotEmpty()) {
                 Text(
                     text = story.url,
@@ -190,7 +181,6 @@ private fun StoryHeader(
     }
 }
 
-// Sample data classes
 private data class SampleStoryDetail(
     val id: Long,
     val title: String,
