@@ -1,4 +1,4 @@
-package com.phatnhse.hnthreads.ui.screens
+package com.phatnhse.hnthreads.features.stories.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -6,18 +6,27 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.phatnhse.hnthreads.navigation.DashboardTab
-import com.phatnhse.hnthreads.ui.components.SampleStoryCard
-import com.phatnhse.hnthreads.ui.theme.HNTheme
+import androidx.compose.runtime.remember
+import com.phatnhse.hnthreads.features.stories.di.AppModule
+import com.phatnhse.hnthreads.features.stories.presentation.StoriesUiState
+import com.phatnhse.hnthreads.features.stories.presentation.StoriesViewModel
+import com.phatnhse.hnthreads.designsystem.components.StoryCard
+// DashboardTab is defined in this module
+import com.phatnhse.hnthreads.designsystem.theme.HNTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     onStoryClick: (Long) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: StoriesViewModel = remember { 
+        StoriesViewModel(AppModule.provideStoriesRepository())
+    }
 ) {
     var selectedTab by remember { mutableStateOf(DashboardTab.STORIES) }
+    val uiState by viewModel.uiState.collectAsState()
     
     Scaffold(
         modifier = modifier.background(HNTheme.colors.background),
@@ -49,10 +58,18 @@ fun DashboardScreen(
                 .padding(paddingValues)
                 .background(HNTheme.colors.background)
         ) {
-            TabContent(
-                selectedTab = selectedTab,
-                onStoryClick = onStoryClick
-            )
+            when (val state = uiState) {
+                is StoriesUiState.Loading -> LoadingIndicator()
+                is StoriesUiState.Success -> StoriesList(
+                    stories = state.stories,
+                    onStoryClick = onStoryClick,
+                    onRefresh = viewModel::refresh
+                )
+                is StoriesUiState.Error -> ErrorMessage(
+                    message = state.message,
+                    onRetry = viewModel::refresh
+                )
+            }
         }
     }
 }
@@ -101,62 +118,71 @@ private fun BottomNavigationBar(
 }
 
 @Composable
-private fun TabContent(
-    selectedTab: DashboardTab,
-    onStoryClick: (Long) -> Unit,
+private fun LoadingIndicator(
     modifier: Modifier = Modifier
 ) {
-    val stories = remember(selectedTab) {
-        when (selectedTab) {
-            DashboardTab.STORIES -> listOf(
-                SampleStory(1L, "Ask HN: What are you building?", "pg", 142, 89),
-                SampleStory(2L, "Show HN: My new AI-powered code editor", "developer", 234, 67),
-                SampleStory(3L, "The future of mobile development", "techguru", 189, 123),
-                SampleStory(4L, "Why Kotlin Multiplatform is the future", "kmplover", 301, 45),
-                SampleStory(5L, "Building great user experiences", "uxdesigner", 76, 34)
-            )
-            DashboardTab.ASK -> listOf(
-                SampleStory(6L, "Ask HN: How do you stay motivated?", "curious", 89, 45),
-                SampleStory(7L, "Ask HN: Best resources for learning Kotlin?", "learner", 67, 32),
-                SampleStory(8L, "Ask HN: What's your favorite development tool?", "coder", 123, 78)
-            )
-            DashboardTab.SHOW -> listOf(
-                SampleStory(9L, "Show HN: Open source Hacker News client", "developer", 156, 43),
-                SampleStory(10L, "Show HN: My weekend project", "maker", 89, 21),
-                SampleStory(11L, "Show HN: Multiplatform mobile app", "mobildev", 234, 67)
-            )
-            DashboardTab.JOBS -> listOf(
-                SampleStory(12L, "Kotlin Developer at Startup (Remote)", "hiring", 45, 12),
-                SampleStory(13L, "Senior Mobile Engineer - YC Company", "ycstartup", 78, 23),
-                SampleStory(14L, "Mobile Team Lead - Multiplatform Experience", "techcorp", 92, 15)
-            )
-        }
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(
+            color = HNTheme.colors.primary
+        )
     }
-    
+}
+
+@Composable
+private fun StoriesList(
+    stories: List<com.phatnhse.hnthreads.shared.data.models.Story>,
+    onStoryClick: (Long) -> Unit,
+    onRefresh: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(
-            horizontal = HNTheme.spacing.lg,
-            vertical = HNTheme.spacing.md
+            horizontal = HNTheme.spacing.md,
+            vertical = HNTheme.spacing.sm
         ),
-        verticalArrangement = Arrangement.spacedBy(HNTheme.spacing.md)
+        verticalArrangement = Arrangement.spacedBy(HNTheme.spacing.sm)
     ) {
-        items(stories) { story ->
-            SampleStoryCard(
-                title = story.title,
-                author = story.author,
-                points = story.points,
-                comments = story.comments,
+        items(stories, key = { it.id }) { story ->
+            StoryCard(
+                story = story,
                 onClick = { onStoryClick(story.id) }
             )
         }
     }
 }
 
-private data class SampleStory(
-    val id: Long,
-    val title: String,
-    val author: String,
-    val points: Int,
-    val comments: Int
-)
+@Composable
+private fun ErrorMessage(
+    message: String,
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(HNTheme.spacing.lg),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = message,
+            style = HNTheme.typography.bodyLarge,
+            color = HNTheme.colors.destructive
+        )
+        
+        Spacer(modifier = Modifier.height(HNTheme.spacing.md))
+        
+        Button(
+            onClick = onRetry,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = HNTheme.colors.primary
+            )
+        ) {
+            Text("Retry")
+        }
+    }
+}

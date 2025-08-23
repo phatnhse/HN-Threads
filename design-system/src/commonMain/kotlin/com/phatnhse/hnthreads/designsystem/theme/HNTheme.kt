@@ -1,4 +1,4 @@
-package com.phatnhse.hnthreads.ui.theme
+package com.phatnhse.hnthreads.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

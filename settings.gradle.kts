@@ -29,3 +29,9 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":shared")
+include(":design-system")
+include(":feature-stories")
+include(":feature-comments")
+include(":feature-user")
+include(":feature-settings")
